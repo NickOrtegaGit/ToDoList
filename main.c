@@ -3,8 +3,10 @@
 #include <string.h>
 #include <time.h>
 
+//limit to length of task description
 #define MAXTASKLEN 100
 
+//define the struct
 typedef struct Task{
     int id;
     char description[MAXTASKLEN];
@@ -12,7 +14,7 @@ typedef struct Task{
     struct Task* next;
 } Task;
 
-//int taskcount = 0;
+
 Task* head = NULL;
 int next_id = 1;
 
@@ -34,7 +36,6 @@ int main(){
         printf("------ 2. add To-Do's ------\n");
         printf("------ 3. finish To-Do's ------\n");
         printf("------ 4. delete all To-Do's ------\n");
-        printf("------ 5. Load from File ------\n");
         printf("------ 0. Exit ------\n");
         scanf("%d", &choice);
         getchar();
@@ -44,7 +45,6 @@ int main(){
         case 2: addToDo(); break;
         case 3: checkOff(); break;
         case 4: wipe(); break;
-        //case 5: displaytime(); break;
         case 0: exit(0);
 
         default: printf("please choose from valid options.\n");
@@ -161,16 +161,16 @@ if(head->id==NULL) {
 //otherwise, set up walker variables
 Task* temp = head;
 Task* delete;
-printf("test");
-//walk thru list to get to
+
+//walk through list to get to target
 while(temp->next!=NULL && temp->next->id!=num) {
     temp = temp->next;
-    printf("test");
 }
 if(temp->next==NULL) {
     printf("you don't have that many To-Do's!");
     return;
 }
+//keeps list linked during deletion and frees afterwards
 delete= temp->next;
 temp->next = delete->next;
 free(delete);
