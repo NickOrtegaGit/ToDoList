@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define MAXTASKLEN 100
 
 typedef struct Task{
     int id;
-    int completed; //flag, 0 incomplete, 1 complete
     char description[MAXTASKLEN];
+    char time[80];
     struct Task* next;
 } Task;
 
@@ -21,8 +22,6 @@ void addToDo();
 void reorder();
 void checkOff();
 void wipe();
-//int load();
-//int exit();
 int main(){
 
     //main menu
@@ -30,11 +29,11 @@ int main(){
     while(1){
         printf("\n--- WELCOME TO YOUR TO-DO LIST! ---\n");
         printf("--- Let's get productive! --\n");
-        //printf("---- choose your option below: ---\n\n");
+
         printf("------ 1. view To-Do's ------\n");
         printf("------ 2. add To-Do's ------\n");
-        printf("------ 3. check off To-Do's ------\n");
-        printf("------ 4. delete all tasks ------\n");
+        printf("------ 3. finish To-Do's ------\n");
+        printf("------ 4. delete all To-Do's ------\n");
         printf("------ 5. Load from File ------\n");
         printf("------ 0. Exit ------\n");
         scanf("%d", &choice);
@@ -45,7 +44,7 @@ int main(){
         case 2: addToDo(); break;
         case 3: checkOff(); break;
         case 4: wipe(); break;
-        //case 5: load(); break;
+        //case 5: displaytime(); break;
         case 0: exit(0);
 
         default: printf("please choose from valid options.\n");
@@ -54,6 +53,7 @@ int main(){
 
 }
 
+//goes through list and prints each one with the time it was added
 void viewToDo(){
     int i=1;
     Task* temp = head;
@@ -66,7 +66,7 @@ void viewToDo(){
 
     printf("--- Current To-Do's ---\n");
    while(temp!=NULL) {
-       printf("%d- %s \n", i,temp->description);
+       printf("%d- %s - added on %s \n", i,temp->description,temp->time);
        temp = temp->next;
        i++;
    }
@@ -75,6 +75,7 @@ void viewToDo(){
 
 }
 
+//adds to list as well as the time it was added
 void addToDo(){
    Task* newTask = malloc(sizeof(Task));
     if(newTask==NULL) {
@@ -86,9 +87,13 @@ void addToDo(){
     newTask->description[strcspn(newTask->description, "\n")] = '\0';
 
     //fill out struct
-    newTask->completed = 0;
     newTask-> next = NULL;
     newTask->id= next_id++;
+
+    //time of addition
+    time_t now = time(NULL);
+    struct tm* local = localtime(&now);
+    strftime(newTask->time, sizeof(newTask->time), "%Y-%m-%d %H:%M:%S", local);
 
 
     //navigate through linked list and add to end of list
@@ -101,8 +106,6 @@ void addToDo(){
         temp->next = newTask;
         newTask->next = NULL;
     }
-
-    //taskcount++;
 
     printf("--- Task was added to your To-Do list! ---\n");
     printf("--- enter any key to return ---\n");
@@ -189,6 +192,7 @@ void wipe(){
     printf("--- enter any key to return ---\n");
     getchar();
 }
+
 
 
 
