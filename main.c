@@ -3,7 +3,6 @@
 #include <string.h>
 
 #define MAXTASKLEN 100
-#define MAXTASKS 100
 
 typedef struct Task{
     int id;
@@ -35,7 +34,7 @@ int main(){
         printf("------ 1. view To-Do's ------\n");
         printf("------ 2. add To-Do's ------\n");
         printf("------ 3. check off To-Do's ------\n");
-        printf("------ 4. Save to File ------\n");
+        printf("------ 4. delete all tasks ------\n");
         printf("------ 5. Load from File ------\n");
         printf("------ 0. Exit ------\n");
         scanf("%d", &choice);
@@ -45,7 +44,7 @@ int main(){
         case 1: viewToDo(); break;
         case 2: addToDo(); break;
         case 3: checkOff(); break;
-        //case 4: wipe(); break;
+        case 4: wipe(); break;
         //case 5: load(); break;
         case 0: exit(0);
 
@@ -62,6 +61,7 @@ void viewToDo(){
         printf("Your To-Do List is empty!\n");
         printf("--- enter any key to return ---\n");
         getchar();
+        return;
     }
 
     printf("--- Current To-Do's ---\n");
@@ -91,7 +91,7 @@ void addToDo(){
     newTask->id= next_id++;
 
 
-    //navigate thru linked list and add to end of list
+    //navigate through linked list and add to end of list
     if(head==NULL)
         head= newTask;
     else {
@@ -110,6 +110,7 @@ void addToDo(){
     getchar();
 
 }
+//shows list without text above
 void viewdelete(){
     int i=1;
     Task* temp = head;
@@ -173,10 +174,20 @@ free(delete);
 reorder();
 }
 
+//frees entire list
 void wipe(){
-    if(head==NULL)
+    if(head==NULL) {
         printf("your list is already empty!");
-    
+        return;
+    }
+    while(head!=NULL){
+        Task*temp=head;
+        head=head->next;
+        free(temp);
+    }
+    printf("List is now empty. Let's change that!\n");
+    printf("--- enter any key to return ---\n");
+    getchar();
 }
 
 
