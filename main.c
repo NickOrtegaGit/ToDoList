@@ -30,13 +30,13 @@ int main(){
     int choice;
     while(1){
         printf("\n--- WELCOME TO YOUR TO-DO LIST! ---\n");
-        printf("--- Let's get productive! --\n");
+        printf("------ Let's get productive! ------\n");
 
-        printf("------ 1. view To-Do's ------\n");
-        printf("------ 2. add To-Do's ------\n");
-        printf("------ 3. finish To-Do's ------\n");
+        printf("------ 1. view To-Do's ------------\n");
+        printf("------ 2. add To-Do's -------------\n");
+        printf("------ 3. finish To-Do's ----------\n");
         printf("------ 4. delete all To-Do's ------\n");
-        printf("------ 0. Exit ------\n");
+        printf("------ 0. Exit --------------------\n");
         scanf("%d", &choice);
         getchar();
 
@@ -166,8 +166,9 @@ Task* delete;
 while(temp->next!=NULL && temp->next->id!=num) {
     temp = temp->next;
 }
+//if input is 0 or any other invalid number
 if(temp->next==NULL) {
-    printf("you don't have that many To-Do's!");
+    printf("invalid To-Do number!\n");
     return;
 }
 //keeps list linked during deletion and frees afterwards
@@ -180,7 +181,7 @@ reorder();
 //frees entire list
 void wipe(){
     if(head==NULL) {
-        printf("your list is already empty!");
+        printf("your list is already empty!\n");
         return;
     }
     while(head!=NULL){
@@ -192,7 +193,6 @@ void wipe(){
     printf("--- enter any key to return ---\n");
     getchar();
 }
-
 
 
 
